@@ -38,4 +38,222 @@
 } */
 
 
+@import url('https://fonts.googleapis.com/css?family=Roboto:700|Press+Start+2P');
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+#root{
+  background-color: #FFDEE9;
+  background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
+   min-height: 100vh;
+   overflow: hidden;
+ }
+
+ .app-wrapper{
+  border: 2px solid black;
+  border-radius: 2%;
+  width: 40%;
+  height: 65%;
+  margin: 8em auto;
+  text-align: center;
+ }
+
+ /* .calculator__display{
+  border: 1px solid rgba(0,0,255, 0.1);
+  border-radius: 1.5%;
+  padding: 1rem 0.75rem;
+  text-align: right;
+  width: 98%;
+  margin-top: 0.9%;
+  margin-left: 1%;
+  margin-right: 1%;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 2rem;
+  background-color: rgba(0,0,255, 0.1);
+ } */
+
+ .calculator_button{
+   margin-top: 1%;
+ }
+
+ .groupOne, .groupTwo, .groupThree, .groupFour, .groupFive{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: .1rem;
+ }
+
+.groupFive{
+  margin-bottom: .2rem;
+}
+
+ .tierTwo{
+  height: 4rem;
+  width: 49%;
+  }
+
+ .key--operator, .key--equal{
+  background-color: #FBAB7E;
+  background-image: linear-gradient(315deg, #FBAB7E 0%, #F7CE68 74%);
+  border: 1px solid #FBAB7E;
+ }
+
+ .tierOne, .key--operator, .key--equal{
+  height: 4rem;
+  width: 24.5%;
+  border-radius: 1%;
+  margin-left: .1rem;
+ }
+
+ .tierOne, .tierTwo{
+   background-color: #d9d9d9;
+   background-image: linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%);
+   border: 1px solid gray;
+ }
+
+ .tierOne, .tierTwo, .key--operator, .key--equal:hover{
+    cursor: pointer;
+ }
+
+ .tierOne, .tierTwo, .key--operator, .key--equal{
+    font-size: 1rem;
+    font-weight: bolder;
+ }
+
+
+/* FRESH */
+
+
+/* DISPLAY */
+
+.calculator__display{
+  border: 1px solid rgba(0,0,255, 0.1);
+  border-radius: 1.5%;
+  padding: 1rem 0.75rem;
+  text-align: right;
+  width: 72%;
+  /* margin-top: 0.9%;
+  margin-left: 1%;
+  margin-right: 1%; */
+  margin: 0 auto;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 2rem;
+  background-color: rgba(0,0,255, 0.1);
+ }
+
+
+
+/* TOP-PANEL */
+
+.operator-wrapper{
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.operator-wrapper > .operator {
+  border: 1px solid red;
+  width: 5.7rem;
+  height: 3.5rem;
+  border-radius: .3rem;
+}
+
+.operator-wrapper > .all-clear {
+  border: 1px solid red;
+  width: 6rem;
+  height: 3.5rem;
+  border-radius: .3rem;
+  margin-left: .15rem;
+}
+
+.operator-wrapper > .decimal {
+  border: 1px solid red;
+  width: 6rem;
+  height: 3.5rem;
+  border-radius: .3rem;
+  margin-left: .15rem;
+}
+
+.operator-wrapper > #divide {
+  width: 5.8rem;
+  margin-left: .2rem;
+}
+
+.operator-wrapper > #subtract {
+
+  width: 5rem;
+  margin-left: .1rem;
+  margin-bottom: .1rem;
+
+}
+
+
+
+/* BUTTON-PANEL */
+
+
+.panel-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.num-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 55.9%;
+
+}
+
+
+.other-wrapper{
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid red; */
+  width: 15%;
+  margin-left: .1rem;
+}
+
+.number{
+  border: 1px solid red;
+  width: 6rem;
+  height: 3.5rem;
+  border-radius: .3rem;
+}
+
+#zero{
+  margin-top: .1rem;
+  margin-bottom: .1rem;
+  width: 100%;
+}
+
+#multiply, #add {
+  height: 3.5rem;
+  border: 1px solid black;
+  margin-bottom: .13rem;
+  border-radius: .3rem;
+}
+
+#equals{
+  height: 7rem;
+  border: 1px solid black;
+  margin-bottom: .1rem;
+  border-radius: .3rem;
+  background-color: aqua;
+}
+
+
+
 
