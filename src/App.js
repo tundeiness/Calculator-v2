@@ -46,11 +46,11 @@ class App extends React.Component {
   }
 
   handleInput(ele) {
-    const { childDisplay } = this.state;
-    if (childDisplay === 0) {
+    let { childDisplay } = this.state;
+    if (childDisplay === '0') {
       this.setState({ childDisplay: ele });
     } else {
-      this.setState({ childDisplay: childDisplay + ele });
+      this.setState({ childDisplay: childDisplay += ele });
     }
   }
 
@@ -82,7 +82,7 @@ class App extends React.Component {
     return (
       <div className="app-wrapper">
         <Display childDisplay={childDisplay} handleDecimal={this.handleDecimal} />
-        <Top handleReset={this.handleReset} handleOperator={this.handleOperator} handleInput={this.handleInput} />
+        <Top handleReset={this.handleReset} handleOperator={this.handleOperator} handleInput={this.handleInput} handleDecimal={this.handleDecimal} />
         <Bottom handleOperator={this.handleOperator} handleInput={this.handleInput} />
       </div>
     );
