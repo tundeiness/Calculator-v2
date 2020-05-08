@@ -4,6 +4,7 @@ import './App.css';
 import Bottom from './component/ButtonPanel';
 import Top from './component/OperatorPanel';
 import Display from './component/Display';
+import Computation from './helper/computation';
 
 class App extends React.Component {
   constructor(props) {

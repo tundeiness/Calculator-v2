@@ -18,7 +18,7 @@ const OperatorX = [
   {
     type: 'button',
     value: '/',
-    name: '/',
+    name: '÷',
     id: 'divide',
     sign: '÷',
     class: 'operator',
