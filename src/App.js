@@ -22,14 +22,15 @@ class App extends React.Component {
     this.handleReset = this.handleReset.bind(this);
   }
 
-  handleOperator(nextOperator) {
+  handleOperator(e) {
+    const input = e.currentTarget.value;
     const {
       operandOne, childDisplay, operator, next,
     } = this.state;
     const suppliedValue = parseFloat(childDisplay);
 
     if (operator && next) {
-      this.setState({ operator: nextOperator });
+      this.setState({ operator: input });
     }
 
     if (operandOne === null) {
@@ -42,46 +43,54 @@ class App extends React.Component {
         operandOne: res,
       });
     }
-    this.setState({ next: true, operator: nextOperator });
+    this.setState({ next: true, operator: input });
   }
 
-  handleInput(ele) {
-    let { childDisplay } = this.state;
-    if (childDisplay === '0') {
-      this.setState({ childDisplay: ele });
+  handleInput(e) {
+    const input = e.currentTarget.value;
+    let { childDisplay, next } = this.state;
+    if (next === true) {
+      this.setState({ childDisplay: input, next: false });
+    } else if (childDisplay === '0') {
+      this.setState({ childDisplay: input });
     } else {
-      this.setState({ childDisplay: childDisplay += ele });
+      this.setState({ childDisplay: childDisplay += input });
     }
   }
 
-  handleDecimal(period) {
+  handleDecimal(e) {
+    const input = e.currentTarget.value;
     let { childDisplay } = this.state;
-    if (childDisplay.includes(period)) {
-      this.setState({ childDisplay: childDisplay += period });
+    if (!childDisplay.includes(input)) {
+      this.setState({ childDisplay: childDisplay += input });
     }
   }
 
-  handleReset() {
-    let {
-      operandOne, childDisplay, operator, next,
-    } = this.state;
-    operandOne = null;
-    childDisplay = '0';
-    next = false;
-    operator = null;
-    this.setState({
-      childDisplay,
-      operandOne,
-      next,
-      operator,
-    });
+  handleReset(e) {
+    // if key pressed is AC reset
+    const input = e.currentTarget.value;
+    // let {
+    //   operandOne, childDisplay, operator, next,
+    // } = this.state;
+    // operandOne = null;
+    // childDisplay = '0';
+    // next = false;
+    // operator = null;
+    if (input === 'all-clear') {
+      this.setState({
+        childDisplay: '0',
+        operandOne: null,
+        next: false,
+        operator: null,
+      });
+    }
   }
 
   render() {
     const { childDisplay } = this.state;
     return (
       <div className="app-wrapper">
-        <Display childDisplay={childDisplay} handleDecimal={this.handleDecimal} />
+        <Display childDisplay={childDisplay} handleDecimal={this.handleDecimal} handleReset={this.handleReset} />
         <Top handleReset={this.handleReset} handleOperator={this.handleOperator} handleInput={this.handleInput} handleDecimal={this.handleDecimal} />
         <Bottom handleOperator={this.handleOperator} handleInput={this.handleInput} />
       </div>

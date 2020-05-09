@@ -11,7 +11,7 @@ const ButtonPanel = (props) => {
   const digitsArr = Digits.map((ele) => (
     <button
       type="button"
-      onClick={() => handleInput(ele.name)}
+      onClick={(e, value) => handleInput(e, value)}
       value={ele.value}
       id={ele.id}
       className={ele.class}
@@ -19,7 +19,7 @@ const ButtonPanel = (props) => {
       {ele.name}
     </button>
   ));
-  const operatorArr = OperatorY.map((ele) => (<button type="button" onClick={() => handleInput(ele.name)} value={ele.value} id={ele.id} className={ele.class}>{ele.name}</button>));
+  const operatorArr = OperatorY.map((ele) => (<button type="button" onClick={(e, value) => handleInput(e, value)} value={ele.value} id={ele.id} className={ele.class}>{ele.name}</button>));
   return (
     <div className="panel-wrapper">
       <div className="num-wrapper">

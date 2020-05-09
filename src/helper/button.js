@@ -1,7 +1,7 @@
 const OperatorX = [
   {
     type: 'button',
-    value: 'clear',
+    value: 'all-clear',
     name: 'AC',
     id: 'clear',
     sign: 'AC',
@@ -32,8 +32,6 @@ const OperatorX = [
     sign: '-',
     class: 'operator',
   },
-
-
 ];
 
 
