@@ -22,16 +22,18 @@ class App extends React.Component {
     this.handleReset = this.handleReset.bind(this);
   }
 
-  handleOperator(e) {
-    const input = e.currentTarget.value;
+  handleOperator(rightOperand, nextOperator) {
     const {
       operandOne, childDisplay, operator, next,
     } = this.state;
+
+
     const suppliedValue = parseFloat(childDisplay);
 
     if (operator && next) {
-      this.setState({ operator: input });
+      this.setState({ operator: nextOperator });
     }
+
 
     if (operandOne === null) {
       this.setState({ operandOne: suppliedValue });
@@ -43,32 +45,35 @@ class App extends React.Component {
         operandOne: res,
       });
     }
-    this.setState({ next: true, operator: input });
+    this.setState({ next: true, operator: nextOperator });
   }
 
   handleInput(e) {
-    const input = e.currentTarget.value;
+    // const input = e.currentTarget.value;
+    // this.setState({ childDisplay: input });
     let { childDisplay, next } = this.state;
     if (next === true) {
-      this.setState({ childDisplay: input, next: false });
+      this.setState({ childDisplay: e, next: false });
     } else if (childDisplay === '0') {
-      this.setState({ childDisplay: input });
+      this.setState({ childDisplay: e });
     } else {
-      this.setState({ childDisplay: childDisplay += input });
+      this.setState({ childDisplay: childDisplay += e });
     }
   }
 
   handleDecimal(e) {
-    const input = e.currentTarget.value;
-    let { childDisplay } = this.state;
-    if (!childDisplay.includes(input)) {
-      this.setState({ childDisplay: childDisplay += input });
+    // const input = e.currentTarget.value;
+    this.setState({ childDisplay: e });
+    const { childDisplay } = this.state;
+    if (!childDisplay.includes(e)) {
+      this.setState({ childDisplay: `${childDisplay}.`, next: false });
     }
   }
 
+
   handleReset(e) {
     // if key pressed is AC reset
-    const input = e.currentTarget.value;
+    // const input = e.currentTarget.value;
     // let {
     //   operandOne, childDisplay, operator, next,
     // } = this.state;
@@ -76,7 +81,7 @@ class App extends React.Component {
     // childDisplay = '0';
     // next = false;
     // operator = null;
-    if (input === 'all-clear') {
+    if (e === 'all-clear') {
       this.setState({
         childDisplay: '0',
         operandOne: null,

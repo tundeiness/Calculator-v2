@@ -1,20 +1,15 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import OperatorX from '../helper/button';
 
 
-const OperatorPanel = (props) => {
-  const { handleInput, handleReset } = props;
-  const { handleDecimal } = props;
-
-  const operatorArr = OperatorX.map((ele) => (<button type="button" value={ele.value} id={ele.id} className={ele.class} onClick={(e, value) => { handleInput(e, value); handleDecimal(e, value); handleReset(e, value); }}>{ele.name}</button>));
-  return (
-    <div className="operator-wrapper">
-      {operatorArr}
-    </div>
-  );
-};
-
-
+const OperatorPanel = () => (
+  <div className="operator-wrapper">
+    <button type="button" className="all-clear" value="all-clear">AC</button>
+    <button type="button" className="decimal" value=".">.</button>
+    <button type="button" className="operator" value="/">&divide;</button>
+    <button type="button" className="operator" value="-">-</button>
+  </div>
+);
 export default OperatorPanel;

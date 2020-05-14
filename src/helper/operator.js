@@ -2,7 +2,7 @@ const OperatorY = [
 
   {
     type: 'button',
-    value: 'x',
+    value: '*',
     name: 'x',
     id: 'multiply',
     sign: '&times',
