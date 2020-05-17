@@ -5,36 +5,82 @@ import './App.css';
 import Bottom from './component/ButtonPanel';
 import Top from './component/OperatorPanel';
 import Display from './component/Display';
-import Computation from './helper/computation';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       childDisplay: '0',
-      operandOne: null,
-      next: false,
-      operator: null,
+      next: true,
     };
-    this.handleOperator = this.handleOperator.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-    this.handleDecimal = this.handleDecimal.bind(this);
-    this.handleReset = this.handleReset.bind(this);
+
     this.getInput = this.getInput.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+    this.updateState = this.updateState.bind(this);
   }
 
 
   getInput(e) {
+    const { value } = e.target;
     const currVal = e.currentTarget.className;
+
+    const attribute = e.currentTarget.getAttribute('data-action');
+    const prevAtt = e.currentTarget.getAttribute('data-previous');
+
+
+    let { childDisplay, next } = this.state;
+
     console.log(currVal);
-    if (currVal === 'operator') {
-      this.handleOperator(e.target.value);
-      this.setState({ childDisplay: e.target.value });
+    console.log('attri=>', attribute);
+
+    if (attribute === null) {
+      console.log('number key!');
     }
 
-    if (currVal === 'decimal') {
-      this.handleDecimal(e.target.value);
-      this.setState({ childDisplay: e.target.value });
+
+    if (
+      attribute === 'add'
+      || attribute === 'subtract'
+      || attribute === 'multiply'
+      || attribute === 'divide'
+    ) {
+      console.log('operator key!');
+    }
+
+
+    if (attribute === 'decimal') {
+      console.log('decimal key!');
+    }
+
+    if (attribute === 'all-clear') {
+      console.log('clear key!');
+    }
+
+    if (attribute === 'calculate') {
+      console.log('equal key!');
+    }
+
+
+    // if (currVal === 'operator') {
+    //   console.log('operator', value);
+    //   this.setState({ childDisplay: value });
+    // }
+
+    // if (currVal === 'decimal') {
+    //   this.setState({ childDisplay: value });
+    // }
+    if (attribute === null || prevAtt === 'operator') {
+      if (childDisplay === '0') {
+        this.setState({ childDisplay: value });
+      } else {
+        this.setState({ childDisplay: childDisplay += value }, () => { this.updateState(childDisplay); });
+      }
+    }
+
+    if (attribute === 'decimal') {
+      // display.textContent = displayedNum + '.'
+      this.setState({ childDisplay: childDisplay + value }, () => { this.updateState(childDisplay); });
     }
 
     if (currVal === 'all-clear') {
@@ -42,73 +88,50 @@ class App extends React.Component {
       return;
     }
 
-    this.handleInput(e.target.value);
-  }
 
-  handleOperator(nextOperator) {
-    const {
-      operandOne, childDisplay, operator, next,
-    } = this.state;
-
-
-    const suppliedValue = parseFloat(childDisplay);
-
-    if (operator && next) {
-      this.setState({ operator: nextOperator });
+    if (attribute === 'calculate') {
+      // const firstValue = value;
+      // const operator =
+      const allValue = childDisplay;
+      console.log('equals =>', allValue);
+      // const operation = calculate(allValue);
+      // ...
     }
 
 
-    if (operandOne === null) {
-      this.setState({ operandOne: suppliedValue });
-    } else if (operator) {
-      const currVal = operandOne || 0;
-      const res = Computation[operator](currVal, suppliedValue);
-      this.setState({
-        childDisplay: String(res),
-        operandOne: res,
-      });
-    }
-    this.setState({ next: true, operator: nextOperator });
-  }
-
-
-  handleInput(e) {
-    const { childDisplay, next } = this.state;
     if (next === true) {
-      this.setState({ childDisplay: e, next: false });
+      this.setState({ childDisplay: value, next: false });
     } else if (childDisplay === '0') {
-      this.setState({ childDisplay: e });
+      this.setState({ childDisplay: value });
     } else {
-      this.setState({ childDisplay: childDisplay + e });
+      this.setState({ childDisplay: childDisplay += value }, () => { this.updateState(childDisplay); });
     }
   }
 
-  handleDecimal(e) {
-    // const input = e.currentTarget.value;
-    this.setState({ childDisplay: e });
+  updateState(value) {
     const { childDisplay } = this.state;
-    if (!childDisplay.includes(e)) {
-      this.setState({ childDisplay: `${childDisplay}.`, next: false });
-    }
+    this.setState({ childDisplay: value });
+    console.log('value in updates =>', childDisplay);
   }
 
 
   handleReset() {
     this.setState({
       childDisplay: '0',
-      operandOne: null,
+      // operandOne: null,
       next: false,
-      operator: null,
+      // operator: null,
     });
   }
 
 
   render() {
     const { childDisplay } = this.state;
+    console.log('value in render =>', childDisplay);
     return (
       <div className="app-wrapper">
         <Display childDisplay={childDisplay} getInput={this.getInput} />
-        <Top handleReset={this.handleReset} getInput={this.getInput} />
+        <Top getInput={this.getInput} />
         <Bottom getInput={this.getInput} />
       </div>
     );

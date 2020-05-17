@@ -1,14 +1,14 @@
 
 const Computation = {
-  '/': (firstOperand, secondOperand) => firstOperand / secondOperand,
+  '/': (operandOne, secondOperand) => operandOne / secondOperand,
 
-  '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
+  '*': (operandOne, secondOperand) => operandOne * secondOperand,
 
-  '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
+  '+': (operandOne, secondOperand) => operandOne + secondOperand,
 
-  '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
+  '-': (operandOne, secondOperand) => operandOne - secondOperand,
 
-  '=': (firstOperand, secondOperand) => secondOperand,
+  '=': (operandOne, secondOperand) => secondOperand,
 };
 
 

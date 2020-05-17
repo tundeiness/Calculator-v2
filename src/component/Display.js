@@ -7,9 +7,12 @@ import React from 'react';
 const Display = (props) => {
   const { childDisplay } = props;
   return (
-    <div className="calculator__display" id="display">
-      <p>{childDisplay}</p>
-    </div>
+    // <div className="calculator__display" id="display">
+    //   <p>{childDisplay}</p>
+    // </div>
+    <>
+      <input type="text" className="calculator-screen calculator__display" id="display" value={childDisplay} disabled />
+    </>
   );
 };
 
