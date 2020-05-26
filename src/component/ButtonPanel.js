@@ -24,11 +24,14 @@ const ButtonPanel = (props) => {
       <div className="other-wrapper">
         <button type="button" className="operator" onClick={getInput} value="*" id="multiply" data-action="multiply" data-previous="operator">&times;</button>
         <button type="button" className="operator" onClick={getInput} value="+" id="add" data-action="add" data-previous="operator">+</button>
-        <button type="button" className=" operator" onClick={getInput} value="=" id="equals" data-action="calculate" data-previous="operator">=</button>
+        <button type="button" className="operator" onClick={getInput} value="=" id="equals" data-action="calculate" data-previous="operator">=</button>
       </div>
     </div>
   );
 };
+
+
+// toggleButton={this.toggleButton} updateColor={this.updateColor}
 
 // event.target.getAttribute('data-action)
 // var attribute = event.target.attributes.getNamedItem('data-tag').value;

@@ -1,3 +1,4 @@
+
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
@@ -12,12 +13,15 @@ class App extends React.Component {
     super(props);
     this.state = {
       childDisplay: '0',
-      next: true,
+      prevOperand: null,
+      nextOperand: null,
+      isOperator: false,
+      isNumberDecimal: true,
+      operatorType: null,
+
     };
 
     this.getInput = this.getInput.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-    this.updateState = this.updateState.bind(this);
   }
 
 
@@ -29,110 +33,97 @@ class App extends React.Component {
     const prevAtt = e.currentTarget.getAttribute('data-previous');
 
 
-    let { childDisplay, next } = this.state;
+    const {
+      childDisplay, nextOperand, prevOperand, isOperator, isNumberDecimal, operatorType,
+    } = this.state;
 
-    console.log(currVal);
-    console.log('attri=>', attribute);
+    // const display = childDisplay === '0' ? value : childDisplay + value;
 
-    if (attribute === null) {
-      console.log('number key!');
-    }
-
-
-    if (
-      attribute === 'add'
-      || attribute === 'subtract'
-      || attribute === 'multiply'
-      || attribute === 'divide'
-    ) {
-      console.log('operator key!');
-    }
+    const conver = parseFloat(value);
 
 
-    if (attribute === 'decimal') {
-      console.log('decimal key!');
-    }
-
-    if (attribute === 'all-clear') {
-      console.log('clear key!');
-    }
-
-    if (attribute === 'calculate') {
-      console.log('equal key!');
-    }
-
-
-    // if (currVal === 'operator') {
-    //   console.log('operator', value);
-    //   this.setState({ childDisplay: value });
-    // }
-
-    // if (currVal === 'decimal') {
-    //   this.setState({ childDisplay: value });
-    // }
-    if (attribute === null || prevAtt === 'operator') {
-      if (childDisplay === '0') {
-        this.setState({ childDisplay: value });
-      } else {
-        this.setState({ childDisplay: childDisplay += value }, () => { this.updateState(childDisplay); });
-      }
-    }
-
-    if (attribute === 'decimal') {
-      // display.textContent = displayedNum + '.'
-      this.setState({ childDisplay: childDisplay + value }, () => { this.updateState(childDisplay); });
-    }
-
-    if (currVal === 'all-clear') {
-      this.handleReset();
-      return;
-    }
-
-
-    if (attribute === 'calculate') {
-      // const firstValue = value;
-      // const operator =
-      const allValue = childDisplay;
-      console.log('equals =>', allValue);
-      // const operation = calculate(allValue);
-      // ...
-    }
-
-
-    if (next === true) {
-      this.setState({ childDisplay: value, next: false });
-    } else if (childDisplay === '0') {
-      this.setState({ childDisplay: value });
+    if (childDisplay === '0' && currVal === 'number') {
+      this.setState({ childDisplay: value, prevOperand: childDisplay });
     } else {
-      this.setState({ childDisplay: childDisplay += value }, () => { this.updateState(childDisplay); });
+      this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
     }
-  }
 
-  updateState(value) {
-    const { childDisplay } = this.state;
-    this.setState({ childDisplay: value });
-    console.log('value in updates =>', childDisplay);
-  }
+    if (childDisplay === '0' && currVal === 'decimal') {
+      this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
+    }
+
+    if (childDisplay !== '0' && currVal === 'decimal') {
+      this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
+    }
+
+    if (!childDisplay.includes('.') && currVal === 'decimal') {
+      this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
+    }
+
+    if (childDisplay.includes('.') && currVal === 'decimal') {
+      this.setState({ childDisplay, prevOperand: childDisplay });
+    }
+
+    // Watching for Operator keypress
+
+    if (currVal === 'operator') {
+      const ops = attribute;
+      this.setState({ childDisplay, operatorType: ops, isOperator: true });
+    }
+
+    if (isOperator && currVal === 'number') {
+      this.setState({ childDisplay: value, nextOperand: childDisplay });
+    }
+
+    if (currVal === 'number' && nextOperand !== null) {
+      this.setState({ childDisplay: childDisplay + value, nextOperand: childDisplay });
+    }
+
+    // Calculation stage
 
 
-  handleReset() {
-    this.setState({
-      childDisplay: '0',
-      // operandOne: null,
-      next: false,
-      // operator: null,
-    });
+    // if (childDisplay === '0' && !Number.isNaN(conver)) {
+    //   this.setState({ childDisplay: value });
+    // } else if (value === '.' && !childDisplay.includes('.')) {
+    //   this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay, isNumberDecimal: false });
+    // } else if (childDisplay.includes('.') && !Number.isNaN(conver)) {
+    //   this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay, isNumberDecimal: false });
+    // }
+
+    // if (childDisplay === '0' && !childDisplay.includes('.')) {
+    //   if (value === '.') {
+    //     this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
+    //   } else {
+    //     this.setState({ childDisplay: value, prevOperand: childDisplay });
+    //   }
+    // } else {
+    //   this.setState({ childDisplay: prevOperand, prevOperand: childDisplay });
+    // }
+
+    // if (value === '.') {
+    //   if (childDisplay === '0') {
+    //     if (!childDisplay.includes('.')) {
+    //       this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
+    //     }
+    //   }
+    // }
+
+
+    // console.log('digit', value);
+    console.log('digit', childDisplay);
+    console.log('OPS', operatorType);
   }
 
 
   render() {
-    const { childDisplay } = this.state;
+    const { childDisplay, prevOperand } = this.state;
     console.log('value in render =>', childDisplay);
+    console.log('check', prevOperand);
     return (
       <div className="app-wrapper">
         <Display childDisplay={childDisplay} getInput={this.getInput} />
-        <Top getInput={this.getInput} />
-        <Bottom getInput={this.getInput} />
+        <Top getInput={this.getInput} toggleButton={this.toggleButton} />
+        <Bottom getInput={this.getInput} toggleButton={this.toggleButton} />
       </div>
     );
   }
