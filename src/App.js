@@ -18,10 +18,12 @@ class App extends React.Component {
       isOperator: false,
       isNumberDecimal: true,
       operatorType: null,
+      operatorCount: 0,
 
     };
 
     this.getInput = this.getInput.bind(this);
+    this.handleAllClear = this.handleAllClear.bind(this);
   }
 
 
@@ -30,11 +32,11 @@ class App extends React.Component {
     const currVal = e.currentTarget.className;
 
     const attribute = e.currentTarget.getAttribute('data-action');
-    const prevAtt = e.currentTarget.getAttribute('data-previous');
+    // const prevAtt = e.currentTarget.getAttribute('data-previous');
 
 
     const {
-      childDisplay, nextOperand, prevOperand, isOperator, isNumberDecimal, operatorType,
+      childDisplay, nextOperand, prevOperand, operatorCount, isOperator, isNumberDecimal, operatorType,
     } = this.state;
 
     // const display = childDisplay === '0' ? value : childDisplay + value;
@@ -68,7 +70,9 @@ class App extends React.Component {
 
     if (currVal === 'operator') {
       const ops = attribute;
-      this.setState({ childDisplay, operatorType: ops, isOperator: true });
+      this.setState({
+        childDisplay, operatorType: ops, prevOperand: childDisplay, isOperator: true, operatorCount: operatorCount + 1,
+      });
     }
 
     if (isOperator && currVal === 'number') {
@@ -82,6 +86,11 @@ class App extends React.Component {
     // Calculation stage
 
 
+    // Clear Display
+
+    if (attribute === 'all-clear') {
+      this.handleAllClear();
+    }
     // if (childDisplay === '0' && !Number.isNaN(conver)) {
     //   this.setState({ childDisplay: value });
     // } else if (value === '.' && !childDisplay.includes('.')) {
@@ -90,35 +99,33 @@ class App extends React.Component {
     //   this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay, isNumberDecimal: false });
     // }
 
-    // if (childDisplay === '0' && !childDisplay.includes('.')) {
-    //   if (value === '.') {
-    //     this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
-    //   } else {
-    //     this.setState({ childDisplay: value, prevOperand: childDisplay });
-    //   }
-    // } else {
-    //   this.setState({ childDisplay: prevOperand, prevOperand: childDisplay });
-    // }
-
-    // if (value === '.') {
-    //   if (childDisplay === '0') {
-    //     if (!childDisplay.includes('.')) {
-    //       this.setState({ childDisplay: childDisplay + value, prevOperand: childDisplay });
-    //     }
-    //   }
-    // }
-
 
     // console.log('digit', value);
     console.log('digit', childDisplay);
     console.log('OPS', operatorType);
   }
 
+  handleAllClear() {
+    this.setState({
+      childDisplay: '0',
+      prevOperand: null,
+      nextOperand: null,
+      isOperator: false,
+      isNumberDecimal: true,
+      operatorType: null,
+      operatorCount: 0,
+    });
+  }
+
 
   render() {
-    const { childDisplay, prevOperand } = this.state;
+    const {
+      childDisplay, prevOperand, operatorType, nextOperand,
+    } = this.state;
     console.log('value in render =>', childDisplay);
     console.log('check', prevOperand);
+    console.log('The trio => ', prevOperand, operatorType, nextOperand);
+
     return (
       <div className="app-wrapper">
         <Display childDisplay={childDisplay} getInput={this.getInput} />
