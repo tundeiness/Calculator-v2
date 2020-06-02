@@ -3,18 +3,18 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 
-
-const Display = (props) => {
+// const Counter = React.forwardRef((props, ref) => {
+const Display = React.forwardRef((props, ref) => {
   const { childDisplay } = props;
   return (
     // <div className="calculator__display" id="display">
     //   <p>{childDisplay}</p>
     // </div>
     <>
-      <input type="text" className="calculator-screen calculator__display" id="display" value={childDisplay} disabled />
+      <input type="text" className="calculator-screen calculator__display" id="display" ref={ref} value={childDisplay} disabled />
     </>
   );
-};
+});
 
 
 // Display.propTypes = {
