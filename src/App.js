@@ -144,7 +144,7 @@ class App extends React.Component {
 
 
     if (childDisplay !== '0' || childDisplay === '0') {
-      if (currVal === 'operator') {
+      if (attribute === 'multiply' || attribute === 'add' || attribute === 'subtract' || attribute === 'divide') {
       // setup localstorage
         localStorage.setItem('operand', refVal);
         localStorage.setItem('ops', attribute);
