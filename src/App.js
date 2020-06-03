@@ -152,6 +152,7 @@ if (!childDisplay.includes('.') && currVal === 'decimal') {
     if(currVal === 'operator'){
       // setup localstorage
       localStorage.setItem('operand', refVal);
+      localStorage.setItem('ops', attribute)
       this.setState((state) => {
         const operand = localStorage.getItem('operand')
         const store = state.store.concat(operand)
@@ -278,6 +279,8 @@ if (!childDisplay.includes('.') && currVal === 'decimal') {
 
     console.log('digit', childDisplay);
     console.log('store =>', store);
+    const signs = localStorage.getItem('ops')
+    console.log('operations =>', signs);
     // console.log('OPS', operatorType);
     // this.setState({test: this.getValue.current.value})
 
