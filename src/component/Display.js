@@ -11,7 +11,7 @@ const Display = React.forwardRef((props, ref) => {
     //   <p>{childDisplay}</p>
     // </div>
     <>
-      <input type="text" className="calculator-screen calculator__display" id="display" ref={ref} value={childDisplay} disabled />
+      <input type="text" className="calculator-screen calculator__display" id="display" ref={ref} value={childDisplay} maxLength="9" disabled />
     </>
   );
 });

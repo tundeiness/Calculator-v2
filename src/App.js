@@ -17,6 +17,7 @@ class App extends React.Component {
       firstOperand: null,
       nextOperand: false,
       operatorType: null,
+      characterLen: 10,
     };
 
     this.getInput = this.getInput.bind(this);
@@ -41,6 +42,7 @@ class App extends React.Component {
     } = this.state;
 
     let { operatorType } = this.state;
+    const { characterLen } = this.state;
 
 
     // const { store } = this.state;
@@ -126,13 +128,22 @@ class App extends React.Component {
       const res = Computation(firstOperand, operatorType, recentValue);
       this.setState(() => {
         firstOperand = res;
-        childDisplay = String(res);
+        const display = String(res);
+        childDisplay = display.substring(0, characterLen);
         return {
           firstOperand,
           childDisplay,
         };
       });
     }
+
+    // if (childDisplay.length > characterLen) {
+    //   const str = childDisplay.substring(0, characterLen);
+    //   childDisplay = str;
+    //   this.setState(() => ({
+    //     childDisplay,
+    //   }));
+    // }
 
 
     if (attribute === 'all-clear') {

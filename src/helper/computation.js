@@ -23,7 +23,8 @@ const Computation = (operandOne, operator, operandTwo) => {
     result = parseFloat(operandOne) / parseFloat(operandTwo);
   }
 
-  return result.toFixed(8);
+  return result;
+  // return result.toFixed(8);
 };
 
 
