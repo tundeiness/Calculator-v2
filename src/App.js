@@ -14,11 +14,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
       childDisplay: '0',
-      store: [],
-      isOperator: false,
-
+      firstOperand: null,
+      nextOperand: false,
+      operatorType: null,
+      // store: [],
+      // initial: '0',
+      // next: '0',
+      // status: 'first',
     };
 
     this.getInput = this.getInput.bind(this);
@@ -28,58 +31,6 @@ class App extends React.Component {
     this.getValue = React.createRef();
     // this.updateOperator = this.updateOperator.bind(this);
   }
-
-  componentDidMount() {
-    // const { childDisplay } = this.state;
-    // const childDisplay = localStorage.getItem('childDisplay', childDisplay)
-    // this.setState({ childDisplay: childDisplay })
-
-
-    // setter
-    // localStorage.setItem('myData', data);
-    // getter
-    // localStorage.getItem('myData');
-    // remove
-    // localStorage.removeItem('myData');
-    // remove all
-    // localStorage.clear();
-  }
-
-  // onAddValues() {
-  // this.setState((state) => {
-  //   const store = state.store.concat(state.childDisplay);
-
-  //   return {
-  //     store,
-  //   };
-  // });
-  // }
-
-
-  // onAddValues(val) {
-  //   this.setState((state) => {
-  //     const store = state.store.concat(val);
-
-  //     return {
-  //       store,
-  //     };
-  //   });
-  // }
-
-  // updateOperator(val){
-
-  //   this.setState((state) => {
-  //     const operatorType = state.operatorType.concat(val);
-
-  //     return {
-  //       operatorType,
-  //     };
-  //   });
-
-  // const updates = val;
-  // this.setState({
-  // operatorType: updates
-  // });
 
 
   getInput(e) {
@@ -93,12 +44,16 @@ class App extends React.Component {
     const refVal = this.getValue.current.value;
 
 
-    let { childDisplay } = this.state;
+    let {
+      childDisplay, firstOperand, nextOperand, operatorType,
+    } = this.state;
 
-    let { store } = this.state;
 
-    const conver = parseFloat(value);
+    // const { store } = this.state;
 
+    // const { status } = this.state;
+
+    // const conver = parseFloat(value);
 
     if (childDisplay === '0' && currVal === 'number') {
       this.setState(() => {
@@ -119,10 +74,9 @@ class App extends React.Component {
       });
     }
 
-
-    if ((childDisplay === '0' && currVal === 'decimal') || (childDisplay !== '0' && currVal === 'decimal')) {
+    if (currVal === 'decimal' && !childDisplay.includes('.')) {
       this.setState((state) => {
-        childDisplay = state.childDisplay + value;
+        childDisplay = `${state.childDisplay}.`;
         return {
           childDisplay,
         };
@@ -130,140 +84,36 @@ class App extends React.Component {
     }
 
 
-    if (childDisplay.includes('.') && currVal === 'decimal') {
-      this.setState(() => ({
-        childDisplay,
-      }));
-    }
-
-    // TODO  the line of code below requires investigation
-
-    if (!childDisplay.includes('.') && currVal === 'decimal') {
-      this.setState({ childDisplay: childDisplay + value });
-    }
-
-
-    if (childDisplay !== '0' || childDisplay === '0') {
-      if (attribute === 'multiply' || attribute === 'add' || attribute === 'subtract' || attribute === 'divide') {
-      // setup localstorage
-        localStorage.setItem('operand', refVal);
-        localStorage.setItem('ops', attribute);
-        this.setState((state) => {
-          const operand = localStorage.getItem('operand');
-          store = state.store.concat(operand);
-          const isOperator = true;
+    if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
+      if (childDisplay !== '0') {
+        this.setState(() => {
+          nextOperand = true;
           return {
-            childDisplay,
-            store,
-            isOperator,
+            nextOperand,
           };
         });
       }
     }
 
-    let { isOperator } = this.state;
-
-    if (isOperator === true && currVal === 'number') {
+    if (nextOperand) {
       this.setState(() => {
         childDisplay = value;
-        isOperator = false;
+        nextOperand = false;
         return {
           childDisplay,
-          isOperator,
+          nextOperand,
         };
       });
     }
 
-
-    // if(childDisplay !== '0' && !Number.isNaN(conver)){
-    //   this.setState({childDisplay: childDisplay + value})
-    // }
-
-
-    // if (!childDisplay.includes('.') && currVal === 'decimal') {
-    //   this.setState({ childDisplay: childDisplay + value, isNumberDecimal: true });
-    // }
-
-
-    // if (childDisplay.includes('.') && currVal === 'decimal') {
-    //   this.setState({ childDisplay: childDisplay + value, isNumberDecimal: true });
-    // }
-
-    // if (childDisplay !== '0' && currVal === 'decimal') {
-    //   this.setState({ childDisplay: childDisplay + value, isNumberDecimal: true });
-    // }
-    // this.setState({childDisplay:value})
-
-
-    // const con = parseFloat(childDisplay);
-
-    // if (isOperator && !Number.isNaN(con)) {
-    //   this.onAddValues();
-    //   this.setState({ childDisplay });
-    // }
-
-    // if (isOperator && currVal === 'number') {
-    //   if(prevOperand.length === 1){
-    //     localStorage.setItem('Second', refVal,)
-    //     const getPrev = localStorage.getItem('Second')
-
-    //     this.setState((state) => {
-    //       const nextOperand = state.nextOperand.concat(getPrev);
-
-    //       return {
-    //         nextOperand,
-    //       };
-    //     });
-    //     this.setState({ childDisplay: value, isNumberDecimal:true });
-    //   }
-    // }
-
-    // if (currVal === 'number' && nextOperand !== null) {
-    //   this.setState({ childDisplay: childDisplay + value, nextOperand: childDisplay, isOperator: false });
-
-    // }
-
-
-    // Clear Display
-
-    if (attribute === 'all-clear') {
-      this.handleAllClear();
-    }
-
-    console.log('digit', childDisplay);
-    console.log('store =>', store);
-    const signs = localStorage.getItem('ops');
-    console.log('operations =>', signs);
-    // console.log('OPS', operatorType);
-    // this.setState({test: this.getValue.current.value})
+    // (attribute === 'add' || attribute === 'multiply' || attribute === 'divide' || attribute === 'divide')
   }
-
-  // handleCalculate = (operandOne, operator, operandTwo) => {
-  //   let result = '';
-  //   if (operator === 'add') {
-  //     result = parseFloat(operandOne) + parseFloat(operandTwo);
-  //   } else if (operator === 'subtract') {
-  //     result = parseFloat(operandOne) - parseFloat(operandTwo);
-  //   } else if (operator === 'multiply') {
-  //     result = parseFloat(operandOne) * parseFloat(operandTwo);
-  //   } else if (operator === 'divide') {
-  //     result = parseFloat(operandOne) / parseFloat(operandTwo);
-  //   }
-
-  //   return result;
-  // }
 
 
   handleAllClear() {
     this.setState({
-      store: [],
+      // store: [],
       childDisplay: '0',
-      prevOperand: null,
-      nextOperand: null,
-      isOperator: false,
-      isNumberDecimal: true,
-      operatorType: null,
-      operatorCount: 0,
     });
   }
 
@@ -271,9 +121,11 @@ class App extends React.Component {
   render() {
     const {
       childDisplay,
+      firstOperand,
     } = this.state;
     // const trial = this.getValue.current.value
     console.log('value in render =>', childDisplay);
+    console.log('operand =>', firstOperand);
 
 
     return (
