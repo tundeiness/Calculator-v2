@@ -32,7 +32,6 @@ class App extends React.Component {
 
     const attribute = e.currentTarget.getAttribute('data-action');
 
-    // const prevAtt = e.currentTarget.getAttribute('data-previous');
 
     const refVal = this.getValue.current.value;
 
@@ -137,14 +136,6 @@ class App extends React.Component {
         };
       });
     }
-
-    // if (childDisplay.length > characterLen) {
-    //   const str = childDisplay.substring(0, characterLen);
-    //   childDisplay = str;
-    //   this.setState(() => ({
-    //     childDisplay,
-    //   }));
-    // }
 
 
     if (attribute === 'all-clear') {
