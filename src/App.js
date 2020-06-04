@@ -45,8 +45,10 @@ class App extends React.Component {
 
 
     let {
-      childDisplay, firstOperand, nextOperand, operatorType,
+      childDisplay, firstOperand, nextOperand,
     } = this.state;
+
+    let { operatorType } = this.state;
 
 
     // const { store } = this.state;
@@ -87,9 +89,13 @@ class App extends React.Component {
     if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
       if (childDisplay !== '0') {
         this.setState(() => {
+          firstOperand = parseFloat(refVal);
+          operatorType = attribute;
           nextOperand = true;
           return {
             nextOperand,
+            firstOperand,
+            operatorType,
           };
         });
       }
@@ -106,7 +112,24 @@ class App extends React.Component {
       });
     }
 
-    // (attribute === 'add' || attribute === 'multiply' || attribute === 'divide' || attribute === 'divide')
+
+    if (attribute === 'calculate') {
+      const recentValue = parseFloat(refVal);
+      const res = Computation(firstOperand, operatorType, recentValue);
+      this.setState(() => {
+        firstOperand = res;
+        childDisplay = String(res);
+        return {
+          firstOperand,
+          childDisplay,
+        };
+      });
+    }
+
+
+    if (attribute === 'all-clear') {
+      this.handleAllClear();
+    }
   }
 
 
@@ -122,10 +145,12 @@ class App extends React.Component {
     const {
       childDisplay,
       firstOperand,
+      operatorType,
     } = this.state;
     // const trial = this.getValue.current.value
     console.log('value in render =>', childDisplay);
     console.log('operand =>', firstOperand);
+    console.log('ops =>', operatorType);
 
 
     return (
