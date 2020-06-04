@@ -113,7 +113,8 @@ class App extends React.Component {
         const res = Computation(firstOperand, operatorType, recentValue);
         this.setState(() => {
           firstOperand = res;
-          childDisplay = String(res);
+          const display = String(res);
+          childDisplay = display.substring(0, characterLen);
           return {
             firstOperand,
             childDisplay,
