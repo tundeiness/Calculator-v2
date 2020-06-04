@@ -43,13 +43,6 @@ class App extends React.Component {
     let { operatorType } = this.state;
     const { characterLen } = this.state;
 
-
-    // const { store } = this.state;
-
-    // const { status } = this.state;
-
-    // const conver = parseFloat(value);
-
     if (childDisplay === '0' && currVal === 'number') {
       this.setState(() => {
         childDisplay = value;
