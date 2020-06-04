@@ -6,7 +6,6 @@ import './App.css';
 import Bottom from './component/ButtonPanel';
 import Top from './component/OperatorPanel';
 import Display from './component/Display';
-// import storage from 'local-storage';
 import Computation from './helper/computation';
 
 
@@ -18,18 +17,11 @@ class App extends React.Component {
       firstOperand: null,
       nextOperand: false,
       operatorType: null,
-      // store: [],
-      // initial: '0',
-      // next: '0',
-      // status: 'first',
     };
 
     this.getInput = this.getInput.bind(this);
     this.handleAllClear = this.handleAllClear.bind(this);
-    // this.onAddValues = this.onAddValues.bind(this);
-    // this.handleCalculate = this.handleCalculate.bind(this);
     this.getValue = React.createRef();
-    // this.updateOperator = this.updateOperator.bind(this);
   }
 
 
@@ -101,6 +93,7 @@ class App extends React.Component {
       }
     }
 
+
     if (nextOperand) {
       this.setState(() => {
         childDisplay = value;
@@ -110,6 +103,21 @@ class App extends React.Component {
           nextOperand,
         };
       });
+    }
+
+    if (firstOperand !== null && refVal) {
+      if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
+        const recentValue = parseFloat(refVal);
+        const res = Computation(firstOperand, operatorType, recentValue);
+        this.setState(() => {
+          firstOperand = res;
+          childDisplay = String(res);
+          return {
+            firstOperand,
+            childDisplay,
+          };
+        });
+      }
     }
 
 
