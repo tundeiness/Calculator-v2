@@ -143,8 +143,10 @@ class App extends React.Component {
 
   handleAllClear() {
     this.setState({
-      // store: [],
       childDisplay: '0',
+      firstOperand: null,
+      nextOperand: false,
+      operatorType: null,
     });
   }
 
