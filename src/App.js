@@ -15,6 +15,7 @@ class App extends React.Component {
     this.state = {
       childDisplay: '0',
       firstOperand: null,
+      secOperand: null,
       nextOperand: false,
       operatorType: null,
       characterLen: 10,
@@ -37,7 +38,7 @@ class App extends React.Component {
 
 
     let {
-      childDisplay, firstOperand, nextOperand,
+      childDisplay, firstOperand, nextOperand, secOperand,
     } = this.state;
 
     let { operatorType } = this.state;
@@ -141,6 +142,7 @@ class App extends React.Component {
     this.setState({
       childDisplay: '0',
       firstOperand: null,
+      secOperand: null,
       nextOperand: false,
       operatorType: null,
     });

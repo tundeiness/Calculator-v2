@@ -163,39 +163,74 @@
 
 .operator-wrapper > .operator {
   border: 1px solid red;
-  width: 5.7rem;
+  width: 6rem;
+  /* width: 15%; */
   height: 3.5rem;
   border-radius: .3rem;
+  margin-left: .25rem;
+  margin-bottom: .35rem;
 }
+
+.operator-wrapper > #subtract{
+  border: 1px solid red;
+  height: 3.5rem;
+  border-radius: .3rem;
+  /* margin-left: .5rem; */
+  /* margin-bottom: .5rem; */
+  margin-right: .7rem;
+  margin-bottom: .35rem;
+
+}
+
+.operator-wrapper > #subtract {
+
+  width: 5rem;
+
+
+}
+
+
 
 .operator-wrapper > .all-clear {
   border: 1px solid red;
   width: 6rem;
   height: 3.5rem;
   border-radius: .3rem;
-  margin-left: .15rem;
+  margin-left: .6rem;
+  margin-bottom: .35rem;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px #efa424;
 }
+
+.operator-wrapper > .all-clear:hover{
+  box-shadow: 0 2px #efa424;
+  top: 1px;
+}
+
+.operator-wrapper > .all-clear:active{
+  box-shadow: none;
+  top: 4px;
+  background-color: red;
+}
+
 
 .operator-wrapper > .decimal {
   border: 1px solid red;
   width: 6rem;
   height: 3.5rem;
   border-radius: .3rem;
-  margin-left: .15rem;
+  margin-left: .25rem;
+  margin-bottom: .35rem;
 }
 
 .operator-wrapper > #divide {
-  width: 5.8rem;
-  margin-left: .2rem;
+  /* width: 5.8rem; */
+  /* margin-left: .2rem; */
+  /* margin-left: .5rem; */
 }
 
-.operator-wrapper > #subtract {
 
-  width: 5rem;
-  margin-left: .1rem;
-  margin-bottom: .1rem;
-
-}
 
 
 
@@ -213,7 +248,7 @@
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 55.9%;
+  width: 57%;
 
 }
 
@@ -223,33 +258,42 @@
   flex-direction: column;
   /* border: 1px solid red; */
   width: 15%;
-  margin-left: .1rem;
+  margin-left: .35rem;
 }
+
 
 .number{
   border: 1px solid red;
   width: 6rem;
   height: 3.5rem;
   border-radius: .3rem;
+  margin-bottom: .35rem;
 }
+
+/* .number:last-child{
+  margin-bottom: 5rem;
+} */
+
 
 #zero{
   margin-top: .1rem;
-  margin-bottom: .1rem;
+  margin-bottom: .35rem;
   width: 100%;
 }
 
 #multiply, #add {
   height: 3.5rem;
-  border: 1px solid black;
-  margin-bottom: .13rem;
+  /* border: 1px solid black; */
+  border: 1px solid red;
+  margin-bottom: .35rem;
   border-radius: .3rem;
 }
 
 #equals{
-  height: 7rem;
-  border: 1px solid black;
-  margin-bottom: .1rem;
+  height: 7.4rem;
+  /* border: 1px solid black; */
+  border: 1px solid red;
+  margin-bottom: .35rem;
   border-radius: .3rem;
   background-color: aqua;
 }
