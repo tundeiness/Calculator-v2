@@ -136,7 +136,7 @@
 /* DISPLAY */
 
 .calculator__display{
-  border: 1px solid rgba(0,0,255, 0.1);
+  /* border: 1px solid rgba(0,0,255, 0.1); */
   border-radius: 1.5%;
   padding: 1rem 0.75rem;
   text-align: right;
@@ -161,38 +161,66 @@
   justify-content: center;
 }
 
+button.operator {
+  outline: none;
+}
+
 .operator-wrapper > .operator {
-  border: 1px solid red;
+  border: 1px solid #a39594;
   width: 6rem;
-  /* width: 15%; */
   height: 3.5rem;
   border-radius: .3rem;
   margin-left: .25rem;
   margin-bottom: .35rem;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px #6e675f;
+}
+
+.operator-wrapper > .operator:hover{
+  box-shadow: 0 2px #63675f;
+  top: 1px;
+}
+
+.operator-wrapper > .operator:active{
+  box-shadow: none;
+  top: 4px;
 }
 
 .operator-wrapper > #subtract{
-  border: 1px solid red;
+  border: 1px solid #a39594;
   height: 3.5rem;
   border-radius: .3rem;
   /* margin-left: .5rem; */
   /* margin-bottom: .5rem; */
   margin-right: .7rem;
-  margin-bottom: .35rem;
-
-}
-
-.operator-wrapper > #subtract {
-
   width: 5rem;
-
+  margin-bottom: .35rem;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px #6e675f;
 
 }
 
 
+
+.operator-wrapper > #subtract:hover{
+  box-shadow: 0 2px #63675f;
+  top: 1px;
+}
+
+.operator-wrapper > #subtract:active{
+  box-shadow: none;
+  top: 4px;
+}
+
+button.all-clear {
+  outline: none;
+}
 
 .operator-wrapper > .all-clear {
-  border: 1px solid red;
+  /* border: 1px solid #edebd7; */
+  border: 1px solid #a39594;
   width: 6rem;
   height: 3.5rem;
   border-radius: .3rem;
@@ -200,37 +228,45 @@
   margin-bottom: .35rem;
   cursor: pointer;
   position: relative;
-  box-shadow: 0 4px #efa424;
+  box-shadow: 0 4px #6e675f;
 }
 
+
 .operator-wrapper > .all-clear:hover{
-  box-shadow: 0 2px #efa424;
+  box-shadow: 0 2px #63675f;
   top: 1px;
 }
 
 .operator-wrapper > .all-clear:active{
   box-shadow: none;
   top: 4px;
-  background-color: red;
 }
 
+button.decimal {
+  outline: none;
+}
 
 .operator-wrapper > .decimal {
-  border: 1px solid red;
+  border: 1px solid #a39594;
   width: 6rem;
   height: 3.5rem;
   border-radius: .3rem;
   margin-left: .25rem;
   margin-bottom: .35rem;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px #6e675f;
 }
 
-.operator-wrapper > #divide {
-  /* width: 5.8rem; */
-  /* margin-left: .2rem; */
-  /* margin-left: .5rem; */
+.operator-wrapper > .decimal:hover{
+  box-shadow: 0 2px #63675f;
+  top: 1px;
 }
 
-
+.operator-wrapper > .decimal:active{
+  box-shadow: none;
+  top: 4px;
+}
 
 
 
@@ -261,13 +297,29 @@
   margin-left: .35rem;
 }
 
+button.number{
+  outline: none;
+}
 
 .number{
-  border: 1px solid red;
+  border: 1px solid #a39594;
   width: 6rem;
   height: 3.5rem;
   border-radius: .3rem;
   margin-bottom: .35rem;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px #6e675f;
+}
+
+.number:hover{
+  box-shadow: 0 2px #63675f;
+  top: 1px;
+}
+
+.number:active{
+  box-shadow: none;
+  top: 4px;
 }
 
 /* .number:last-child{
@@ -284,18 +336,56 @@
 #multiply, #add {
   height: 3.5rem;
   /* border: 1px solid black; */
-  border: 1px solid red;
+  border: 1px solid #a39594;
   margin-bottom: .35rem;
   border-radius: .3rem;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px #6e675f;
+}
+
+#multiply:hover {
+  box-shadow: 0 2px #63675f;
+  top: 1px;
+}
+
+#add:hover {
+  box-shadow: 0 2px #63675f;
+  top: 1px;
+}
+
+
+#multiply:active{
+  box-shadow: none;
+  top: 4px;
+}
+
+#add:active{
+  box-shadow: none;
+  top: 4px;
 }
 
 #equals{
-  height: 7.4rem;
+  height: 7.5rem;
   /* border: 1px solid black; */
-  border: 1px solid red;
+  border: 1px solid #a39594;
   margin-bottom: .35rem;
   border-radius: .3rem;
   background-color: aqua;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px #6e675f;
+}
+
+#equals:hover {
+  box-shadow: 0 2px #63675f;
+  top: 1px;
+}
+
+
+#equals:active{
+  box-shadow: none;
+  top: 4px;
 }
 
 
