@@ -141,13 +141,12 @@
   padding: 1rem 0.75rem;
   text-align: right;
   width: 72%;
-  /* margin-top: 0.9%;
-  margin-left: 1%;
-  margin-right: 1%; */
   margin: 0 auto;
   font-family: 'Press Start 2P', cursive;
   font-size: 2rem;
   background-color: rgba(0,0,255, 0.1);
+  margin-bottom: .3rem;
+  margin-top: .3rem;
  }
 
 
@@ -185,6 +184,7 @@ button.operator {
 .operator-wrapper > .operator:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
 }
 
 .operator-wrapper > #subtract{
@@ -212,6 +212,7 @@ button.operator {
 .operator-wrapper > #subtract:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
 }
 
 button.all-clear {
@@ -240,6 +241,8 @@ button.all-clear {
 .operator-wrapper > .all-clear:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
+
 }
 
 button.decimal {
@@ -266,6 +269,7 @@ button.decimal {
 .operator-wrapper > .decimal:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
 }
 
 
@@ -320,6 +324,7 @@ button.number{
 .number:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
 }
 
 /* .number:last-child{
@@ -358,11 +363,13 @@ button.number{
 #multiply:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
 }
 
 #add:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
 }
 
 #equals{
@@ -386,6 +393,7 @@ button.number{
 #equals:active{
   box-shadow: none;
   top: 4px;
+  background-color: #e3b23c;
 }
 
 
