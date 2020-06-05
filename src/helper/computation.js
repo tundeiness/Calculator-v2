@@ -1,16 +1,4 @@
 
-// const Computation = {
-//   '/': (operandOne, secondOperand) => operandOne / secondOperand,
-
-//   '*': (operandOne, secondOperand) => operandOne * secondOperand,
-
-//   '+': (operandOne, secondOperand) => operandOne + secondOperand,
-
-//   '-': (operandOne, secondOperand) => operandOne - secondOperand,
-
-//   '=': (operandOne, secondOperand) => secondOperand,
-// };
-
 const Computation = (operandOne, operator, operandTwo) => {
   let result = '';
   if (operator === 'add') {

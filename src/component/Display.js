@@ -7,9 +7,6 @@ import React from 'react';
 const Display = React.forwardRef((props, ref) => {
   const { childDisplay } = props;
   return (
-    // <div className="calculator__display" id="display">
-    //   <p>{childDisplay}</p>
-    // </div>
     <>
       <input type="text" className="calculator-screen calculator__display" id="display" ref={ref} value={childDisplay} maxLength="9" disabled />
     </>
