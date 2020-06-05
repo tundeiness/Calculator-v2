@@ -100,6 +100,16 @@ class App extends React.Component {
       });
     }
 
+    // TODO  line 113 to 127 has a wierd behaviour. After an operand  is
+    // selected and assuming I clicked an operator after the operand. and its
+    // not the operator i want. but I still go ahead and select the prefered
+    // operator, but on click of the preffered operator the operand computes
+    // based on the previous operator and yields a result instead of nothing.
+    // for example the first number I clicked is 5 and the next operator is say
+    // add but I changed my mind and selected multiply. Instead of nothing to
+    // happen it produces a result based on the previous operator and using the
+    // values on the display. That is wierd and needs to be fixed.
+
     if (firstOperand !== null && refVal) {
       if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
         const recentValue = parseFloat(refVal);
