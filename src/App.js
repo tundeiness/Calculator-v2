@@ -6,7 +6,7 @@ import './App.css';
 import Bottom from './component/ButtonPanel';
 import Top from './component/OperatorPanel';
 import Display from './component/Display';
-import Computation from './helper/computation';
+// import Computation from './helper/computation';
 
 
 class App extends React.Component {
@@ -15,10 +15,10 @@ class App extends React.Component {
     this.state = {
       childDisplay: '0',
       firstOperand: null,
-      secOperand: null,
       nextOperand: false,
       operatorType: null,
       characterLen: 10,
+      isOperator: false,
     };
 
     this.getInput = this.getInput.bind(this);
@@ -38,7 +38,7 @@ class App extends React.Component {
 
 
     let {
-      childDisplay, firstOperand, nextOperand, secOperand,
+      childDisplay, firstOperand, nextOperand, isOperator,
     } = this.state;
 
     let { operatorType } = this.state;
@@ -72,74 +72,36 @@ class App extends React.Component {
       });
     }
 
+    // in line 77 at the click of an operator the first operand is stored in firstOperand
 
-    if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
-      if (childDisplay !== '0') {
-        this.setState(() => {
-          firstOperand = parseFloat(refVal);
-          operatorType = attribute;
-          nextOperand = true;
-          return {
-            nextOperand,
-            firstOperand,
-            operatorType,
-          };
-        });
-      }
+    if (attribute === 'add' || attribute === 'subtract' || attribute === 'multiply' || attribute === 'divide') {
+      this.setState(() => {
+        firstOperand = refVal;
+        operatorType = attribute;
+        childDisplay = refVal;
+        nextOperand = true;
+        return {
+          firstOperand, operatorType, childDisplay, nextOperand,
+        };
+      });
     }
 
+    // in line 93 if the app is expecting a second operand (i.e true) and the
+    // user presses a number key permit the input of a second operand without
+    // concatenating with the firstoperand i.e start afresh
 
-    if (nextOperand) {
+    if (nextOperand && currVal === 'number') {
       this.setState(() => {
-        childDisplay = value;
         nextOperand = false;
+        childDisplay = value;
         return {
-          childDisplay,
           nextOperand,
-        };
-      });
-    }
-
-    // TODO  line 113 to 127 has a wierd behaviour. After an operand  is
-    // selected and assuming I clicked an operator after the operand. and its
-    // not the operator i want. but I still go ahead and select the prefered
-    // operator, but on click of the preffered operator the operand computes
-    // based on the previous operator and yields a result instead of nothing.
-    // for example the first number I clicked is 5 and the next operator is say
-    // add but I changed my mind and selected multiply. Instead of nothing to
-    // happen it produces a result based on the previous operator and using the
-    // values on the display. That is wierd and needs to be fixed.
-
-    if (firstOperand !== null && refVal) {
-      if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
-        const recentValue = parseFloat(refVal);
-        const res = Computation(firstOperand, operatorType, recentValue);
-        this.setState(() => {
-          firstOperand = res;
-          const display = String(res);
-          childDisplay = display.substring(0, characterLen);
-          return {
-            firstOperand,
-            childDisplay,
-          };
-        });
-      }
-    }
-
-
-    if (attribute === 'calculate') {
-      const recentValue = parseFloat(refVal);
-      const res = Computation(firstOperand, operatorType, recentValue);
-      this.setState(() => {
-        firstOperand = res;
-        const display = String(res);
-        childDisplay = display.substring(0, characterLen);
-        return {
-          firstOperand,
           childDisplay,
         };
       });
     }
+
+    // when do you start the first operation? what will kick start the first operation
 
 
     if (attribute === 'all-clear') {
