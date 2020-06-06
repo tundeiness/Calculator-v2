@@ -241,7 +241,7 @@ button.all-clear {
 .operator-wrapper > .all-clear:active{
   box-shadow: none;
   top: 4px;
-  background-color: #e3b23c;
+  background-color: red;
 
 }
 
