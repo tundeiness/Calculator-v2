@@ -7,6 +7,7 @@ import Bottom from './component/ButtonPanel';
 import Top from './component/OperatorPanel';
 import Display from './component/Display';
 // import Computation from './helper/computation';
+import Computation from './helper/computation';
 
 
 class App extends React.Component {
@@ -14,7 +15,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       childDisplay: '0',
+      result: '0',
       firstOperand: null,
+      secOperand: null,
       nextOperand: false,
       operatorType: null,
       characterLen: 10,
@@ -38,7 +41,7 @@ class App extends React.Component {
 
 
     let {
-      childDisplay, firstOperand, nextOperand, isOperator,
+      childDisplay, firstOperand, nextOperand, isOperator, secOperand,
     } = this.state;
 
     let { operatorType } = this.state;
@@ -63,28 +66,46 @@ class App extends React.Component {
       });
     }
 
-    if (currVal === 'decimal' && !childDisplay.includes('.')) {
-      this.setState((state) => {
-        childDisplay = `${state.childDisplay}.`;
-        return {
-          childDisplay,
-        };
-      });
+    if (currVal === 'decimal') {
+      if (!childDisplay.includes('.')) {
+        this.setState((state) => {
+          childDisplay = `${state.childDisplay}.`;
+          return {
+            childDisplay,
+          };
+        });
+      }
     }
+
 
     // in line 77 at the click of an operator the first operand is stored in firstOperand
 
     if (attribute === 'add' || attribute === 'subtract' || attribute === 'multiply' || attribute === 'divide') {
+      const retValue = parseFloat(childDisplay);
       this.setState(() => {
-        firstOperand = refVal;
+        firstOperand = retValue;
         operatorType = attribute;
-        childDisplay = refVal;
+        // childDisplay = refVal;
         nextOperand = true;
         return {
           firstOperand, operatorType, childDisplay, nextOperand,
         };
       });
     }
+
+    // set display to zero if the display has a number and an ending decimal and
+    // if the user presses the opertor button.
+    if (childDisplay.slice(-1) === '.') {
+      if (attribute === 'add' || attribute === 'subtract' || attribute === 'multiply' || attribute === 'divide') {
+        this.setState(() => {
+          childDisplay = '0';
+          return {
+            childDisplay,
+          };
+        });
+      }
+    }
+
 
     // in line 93 if the app is expecting a second operand (i.e true) and the
     // user presses a number key permit the input of a second operand without
@@ -101,7 +122,49 @@ class App extends React.Component {
       });
     }
 
-    // when do you start the first operation? what will kick start the first operation
+    // when do you start the first operation? what will kick start the first
+    // operation
+
+
+    // if operator equals is pressed by user and if 2 operand exist and an
+    // operator compute and display result
+    // else do nothing. retain current value displayed
+    if (attribute === 'calculate') {
+      if (firstOperand !== null && operatorType !== null) {
+        const recentValue = parseFloat(refVal);
+        secOperand = recentValue;
+        // nextOperand = false;
+        const res = Computation(firstOperand, operatorType, secOperand);
+        firstOperand = String(res);
+        // childDisplay = String(res);
+        this.setState(() => {
+          secOperand = null;
+          return secOperand;
+        });
+        this.setState({ childDisplay: String(res), nextOperand: false });
+      // this.setState(() => {
+      //   secOperand = recentValue;
+      //   nextOperand = false;
+      //   const res = Computation(firstOperand, operatorType, secOperand);
+      //   childDisplay = String(res);
+      //   secOperand = null;
+      //   return {
+      //     childDisplay, nextOperand, secOperand,
+      //   };
+      // });
+      }
+    }
+
+
+    // attempts at fixing a bug that occurs when user selects a number followed
+    // by an operator and then calculate button. It should return0 but instead
+    // it is computing based on the value on the dispaly.
+    if (firstOperand !== null) {
+      if (operatorType === null && attribute === 'calculate') {
+        // this.setState({ childDisplay: '0' });
+        this.handleAllClear();
+      }
+    }
 
 
     if (attribute === 'all-clear') {
