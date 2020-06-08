@@ -97,8 +97,9 @@ class App extends React.Component {
     // if the user presses the opertor button.
     if (childDisplay.slice(-1) === '.') {
       if (attribute === 'add' || attribute === 'subtract' || attribute === 'multiply' || attribute === 'divide') {
-        this.setState(() => {
-          childDisplay = '0';
+        this.setState((state) => {
+          // childDisplay = '0';
+          childDisplay = `${state.childDisplay}0`;
           return {
             childDisplay,
           };
