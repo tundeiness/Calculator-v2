@@ -27,13 +27,15 @@ class App extends React.Component {
 
 
   getInput(e) {
-    console.log(this.state)
+    console.log(state)
     const val = e?.target?.value || new Error("Could not capture input");
-    const isOperator = this.state.operators.includes(val);
+    const isOperator = state.operators.includes(val);
     
     if (this.state.calculatorState === "INIT" && !isOperator) {
-      this.state.calculatorState = "CAPTURED_FIRST"
-      return this.state.firstOperand = val;
+      this.setState((state) => {
+        state.calculatorState = "CAPTURED_FIRST"
+        return state.firstOperand = val;
+      })
     }
 
     if (this.state.calculatorState === "INIT") {
@@ -41,22 +43,29 @@ class App extends React.Component {
     }
 
     if(this.state.calculatorState === "CAPTURED_FIRST") {
-      this.setState()
-      return this.state.firstOperand = `${this.state.firstOperand}${val}`;
+      this.setState((state) => {
+        return state.firstOperand = `${state.firstOperand}${val}`;
+      })
     }
 
     if(this.state.isOperator === true) {
-      this.state.calculatorState = "CAPTURED_OPERATOR";
-      return this.state.operatorType = val
+      this.setState((state) => {
+        state.calculatorState = "CAPTURED_OPERATOR";
+        return state.operatorType = val
+      })
     }
 
     if(this.state.calculatorState === "CAPTURED_OPERATOR") {
-      this.state.calculatorState = "CAPTURED_SECOND";
-      return this.state.secOperand = val
+      this.setState((state) => {
+        state.calculatorState = "CAPTURED_SECOND";
+        return state.secOperand = val
+      })
     }
 
     if(this.state.calculatorState === "CAPTURED_SECOND") {
-      return this.state.secOperand = `${this.state.secOperand}${val}`
+      this.setState((state) => {
+        return state.secOperand = `${state.secOperand}${val}`
+      })
     }
   }
 
