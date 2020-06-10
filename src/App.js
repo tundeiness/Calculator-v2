@@ -13,6 +13,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      calculatorState: "INIT",
+      possibleStates: ["INIT", "CAPTURED_FIRST", "CAPTURED_OPERATOR", "CAPTURED_SECOND"],
+      operators: ["+", "-", "*", "=", "/"],
       childDisplay: '0',
       firstOperand: null,
       secOperand: null,
@@ -20,142 +23,41 @@ class App extends React.Component {
       operatorType: null,
       characterLen: 10,
     };
-
-    this.getInput = this.getInput.bind(this);
-    this.handleAllClear = this.handleAllClear.bind(this);
-    this.getValue = React.createRef();
   }
 
 
   getInput(e) {
-    const { value } = e.target;
-    const currVal = e.currentTarget.className;
-
-    const attribute = e.currentTarget.getAttribute('data-action');
-
-
-    const refVal = this.getValue.current.value;
-
-
-    let {
-      childDisplay, firstOperand, nextOperand, secOperand,
-    } = this.state;
-
-    let { operatorType } = this.state;
-    const { characterLen } = this.state;
-
-    if (childDisplay === '0' && currVal === 'number') {
-      this.setState(() => {
-        childDisplay = value;
-        return {
-          childDisplay,
-        };
-      });
+    console.log(this.state)
+    const val = e?.target?.value || new Error("Could not capture input");
+    const isOperator = this.state.operators.includes(val);
+    
+    if (this.state.calculatorState === "INIT" && !isOperator) {
+      this.state.calculatorState = "CAPTURED_FIRST"
+      return this.state.firstOperand = val;
     }
 
-
-    if (childDisplay !== '0' && currVal === 'number') {
-      this.setState((state) => {
-        childDisplay = state.childDisplay + value;
-        return {
-          childDisplay,
-        };
-      });
+    if (this.state.calculatorState === "INIT") {
+      return
     }
 
-    if (currVal === 'decimal' && !childDisplay.includes('.')) {
-      this.setState((state) => {
-        childDisplay = `${state.childDisplay}.`;
-        return {
-          childDisplay,
-        };
-      });
+    if(this.state.calculatorState === "CAPTURED_FIRST") {
+      this.setState()
+      return this.state.firstOperand = `${this.state.firstOperand}${val}`;
     }
 
-
-    if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
-      if (childDisplay !== '0') {
-        this.setState(() => {
-          firstOperand = parseFloat(refVal);
-          operatorType = attribute;
-          nextOperand = true;
-          return {
-            nextOperand,
-            firstOperand,
-            operatorType,
-          };
-        });
-      }
+    if(this.state.isOperator === true) {
+      this.state.calculatorState = "CAPTURED_OPERATOR";
+      return this.state.operatorType = val
     }
 
-
-    if (nextOperand) {
-      this.setState(() => {
-        childDisplay = value;
-        nextOperand = false;
-        return {
-          childDisplay,
-          nextOperand,
-        };
-      });
+    if(this.state.calculatorState === "CAPTURED_OPERATOR") {
+      this.state.calculatorState = "CAPTURED_SECOND";
+      return this.state.secOperand = val
     }
 
-    // TODO  line 113 to 127 has a wierd behaviour. After an operand  is
-    // selected and assuming I clicked an operator after the operand. and its
-    // not the operator i want. but I still go ahead and select the prefered
-    // operator, but on click of the preffered operator the operand computes
-    // based on the previous operator and yields a result instead of nothing.
-    // for example the first number I clicked is 5 and the next operator is say
-    // add but I changed my mind and selected multiply. Instead of nothing to
-    // happen it produces a result based on the previous operator and using the
-    // values on the display. That is wierd and needs to be fixed.
-
-    if (firstOperand !== null && refVal) {
-      if (attribute === 'add' || attribute === 'multiply' || attribute === 'subtract' || attribute === 'divide') {
-        const recentValue = parseFloat(refVal);
-        const res = Computation(firstOperand, operatorType, recentValue);
-        this.setState(() => {
-          firstOperand = res;
-          const display = String(res);
-          childDisplay = display.substring(0, characterLen);
-          return {
-            firstOperand,
-            childDisplay,
-          };
-        });
-      }
+    if(this.state.calculatorState === "CAPTURED_SECOND") {
+      return this.state.secOperand = `${this.state.secOperand}${val}`
     }
-
-
-    if (attribute === 'calculate') {
-      const recentValue = parseFloat(refVal);
-      const res = Computation(firstOperand, operatorType, recentValue);
-      this.setState(() => {
-        firstOperand = res;
-        const display = String(res);
-        childDisplay = display.substring(0, characterLen);
-        return {
-          firstOperand,
-          childDisplay,
-        };
-      });
-    }
-
-
-    if (attribute === 'all-clear') {
-      this.handleAllClear();
-    }
-  }
-
-
-  handleAllClear() {
-    this.setState({
-      childDisplay: '0',
-      firstOperand: null,
-      secOperand: null,
-      nextOperand: false,
-      operatorType: null,
-    });
   }
 
 
