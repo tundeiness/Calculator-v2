@@ -6,7 +6,6 @@ import './App.css';
 import Bottom from './component/ButtonPanel';
 import Top from './component/OperatorPanel';
 import Display from './component/Display';
-import Computation from './helper/computation';
 
 
 class App extends React.Component {
@@ -14,7 +13,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       calculatorState: "INIT",
-      possibleStates: ["INIT", "CAPTURED_FIRST", "CAPTURED_OPERATOR", "CAPTURED_SECOND"],
+      possibleStates: ["INIT", "CAPTURED_FIRST", "CAPTURED_OPERATOR", "CAPTURED_SECOND", "GOT_RESULT"],
       operators: ["+", "-", "*", "=", "/"],
       childDisplay: '0',
       firstOperand: null,
@@ -23,68 +22,136 @@ class App extends React.Component {
       operatorType: null,
       characterLen: 10,
     };
+
+    this.getInput = this.getInput.bind(this);
   }
 
-
-  getInput(e) {
-    console.log(state)
+  async getInput(e) {
     const val = e?.target?.value || new Error("Could not capture input");
-    const isOperator = state.operators.includes(val);
     
-    if (this.state.calculatorState === "INIT" && !isOperator) {
-      this.setState((state) => {
-        state.calculatorState = "CAPTURED_FIRST"
-        return state.firstOperand = val;
-      })
-    }
+    if (val === "ac") return this.resetCalc();
+    const localState = { ...this.state };
+    const isOperator = localState.operators.includes(val);
 
-    if (this.state.calculatorState === "INIT") {
+    if (localState.calculatorState === "INIT" && !isOperator) {
+      localState.calculatorState = "CAPTURED_FIRST"
+      localState.firstOperand = val;
+      localState.childDisplay = localState.firstOperand;
+
+      this.setState(localState)
       return
     }
 
-    if(this.state.calculatorState === "CAPTURED_FIRST") {
-      this.setState((state) => {
-        return state.firstOperand = `${state.firstOperand}${val}`;
-      })
+    if (localState.calculatorState === "CAPTURED_FIRST" && !isOperator) {
+      localState.firstOperand = this.valGenerator(val, localState.firstOperand);
+      localState.childDisplay = localState.firstOperand;
+
+      this.setState(localState)
+      return
     }
 
-    if(this.state.isOperator === true) {
-      this.setState((state) => {
-        state.calculatorState = "CAPTURED_OPERATOR";
-        return state.operatorType = val
-      })
+    if (isOperator) {
+      // if (localState.calculatorState === "GOT_RESULT" && val === "=") {
+      //   return;
+      // }
+      if (localState.calculatorState === "CAPTURED_OPERATOR") {
+        localState.operatorType = val
+        this.setState(localState)
+        return
+      }
+      if (localState.calculatorState === "CAPTURED_SECOND") {
+        localState.firstOperand = this.calc(localState.firstOperand, localState.secOperand, localState.operatorType);
+        localState.childDisplay = localState.firstOperand;
+        localState.secOperand = null;
+        localState.calculatorState = "GOT_RESULT";
+        localState.operatorType = val;
+      } else if (localState.calculatorState === "CAPTURED_OPERATOR" && localState.secOperand) {
+        localState.firstOperand = this.calc(localState.firstOperand, localState.secOperand, localState.operatorType)
+        localState.secOperand = null;
+        localState.calculatorState = "GOT_RESULT";
+        localState.childDisplay = localState.firstOperand;
+        localState.operatorType = val
+      }
+      else {
+        localState.calculatorState = "CAPTURED_OPERATOR";
+        localState.operatorType = val;
+      }
+      this.setState(localState)
+      return
     }
 
-    if(this.state.calculatorState === "CAPTURED_OPERATOR") {
-      this.setState((state) => {
-        state.calculatorState = "CAPTURED_SECOND";
-        return state.secOperand = val
-      })
+    if (localState.calculatorState === "CAPTURED_OPERATOR" || localState.calculatorState === "GOT_RESULT") {
+      if(!localState.operatorType || localState.operatorType === "=") {
+        return this.resetCalc(val)
+      }
+      localState.secOperand = this.valGenerator(val, localState.secOperand)
+      localState.calculatorState = "CAPTURED_SECOND";
+      localState.childDisplay = localState.secOperand;
+
+      this.setState(localState)
+      return
     }
 
-    if(this.state.calculatorState === "CAPTURED_SECOND") {
-      this.setState((state) => {
-        return state.secOperand = `${state.secOperand}${val}`
-      })
+    if (localState.calculatorState === "CAPTURED_SECOND") {
+      if(!localState.operatorType || localState.operatorType === "=") {
+        return this.resetCalc(val)
+      }
+      localState.secOperand = this.valGenerator(val, localState.secOperand)
+      localState.childDisplay = localState.secOperand;
+      this.setState(localState)
+      return
     }
+
+  }
+
+  calc(x, y, opr) {
+    console.log(x, y, opr)
+    if (!y) x = y;
+    switch (opr) {
+      case "+":
+        return Number(x) + Number(y)
+      case "-":
+        return Number(x) - Number(y)
+      case "*":
+        return Number(x) * Number(y)
+      case "/":
+        return Number(x) / Number(y)
+      default:
+        return 0;
+    }
+  }
+
+  valGenerator(val, prevVal) {
+    if (val === "." && !prevVal) return "0."
+    if (val === "." && prevVal && !prevVal.includes(val)) return `${prevVal}.`
+    if (val === "." && prevVal && prevVal.includes(val)) return prevVal
+    if (val !== "." && prevVal) return `${prevVal}${val}`
+    if (val && !prevVal) return val
+    return prevVal
+  }
+
+  resetCalc(newFirstOperand = null) {
+    console.log("RESETTING CALC")
+    const localState = this.state;
+    localState.secOperand = null;
+    localState.firstOperand = newFirstOperand;
+    localState.operatorType = null;
+    localState.calculatorState = "INIT";
+    localState.childDisplay = newFirstOperand || "0";
+    this.setState(localState);
   }
 
 
   render() {
     const {
       childDisplay,
-      firstOperand,
-      operatorType,
     } = this.state;
-    // const trial = this.getValue.current.value
-    console.log('value in render =>', childDisplay);
-    console.log('operand =>', firstOperand);
-    console.log('ops =>', operatorType);
 
+    console.log(JSON.stringify(this.state, null, 2))
 
     return (
       <div className="app-wrapper">
-        <Display ref={this.getValue} childDisplay={childDisplay} getInput={this.getInput} />
+        <Display ref={this.getValue} childDisplay={childDisplay} />
         <Top getInput={this.getInput} toggleButton={this.toggleButton} />
         <Bottom getInput={this.getInput} toggleButton={this.toggleButton} />
       </div>
