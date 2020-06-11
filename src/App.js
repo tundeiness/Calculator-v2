@@ -15,8 +15,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       childDisplay: '0',
-      result: '0',
       firstOperand: null,
+      result: 0,
       secOperand: null,
       nextOperand: false,
       operatorType: null,
@@ -41,7 +41,7 @@ class App extends React.Component {
 
 
     let {
-      childDisplay, firstOperand, nextOperand, isOperator, secOperand,
+      childDisplay, firstOperand, nextOperand, isOperator, secOperand, result,
     } = this.state;
 
     let { operatorType } = this.state;
@@ -81,16 +81,17 @@ class App extends React.Component {
     // in line 77 at the click of an operator the first operand is stored in firstOperand
 
     if (attribute === 'add' || attribute === 'subtract' || attribute === 'multiply' || attribute === 'divide') {
-      const retValue = parseFloat(childDisplay);
-      this.setState(() => {
-        firstOperand = retValue;
-        operatorType = attribute;
-        // childDisplay = refVal;
-        nextOperand = true;
-        return {
-          firstOperand, operatorType, childDisplay, nextOperand,
-        };
-      });
+      if (firstOperand === null) {
+        const retValue = parseFloat(childDisplay);
+        this.setState(() => {
+          firstOperand = retValue;
+          operatorType = attribute;
+          nextOperand = true;
+          return {
+            firstOperand, operatorType, childDisplay, nextOperand,
+          };
+        });
+      }
     }
 
     // set display to zero if the display has a number and an ending decimal and
@@ -98,7 +99,6 @@ class App extends React.Component {
     if (childDisplay.slice(-1) === '.') {
       if (attribute === 'add' || attribute === 'subtract' || attribute === 'multiply' || attribute === 'divide') {
         this.setState((state) => {
-          // childDisplay = '0';
           childDisplay = `${state.childDisplay}0`;
           return {
             childDisplay,
@@ -121,6 +121,28 @@ class App extends React.Component {
           childDisplay,
         };
       });
+    }
+
+    if (firstOperand !== null && operatorType !== null) {
+      if (attribute === 'add' || attribute === 'subtract' || attribute === 'multiply' || attribute === 'divide') {
+        this.setState(() => {
+          const recentValue = parseFloat(childDisplay);
+          secOperand = recentValue;
+          const res = Computation(firstOperand, operatorType, secOperand);
+          result = res;
+          firstOperand = String(res);
+          childDisplay = firstOperand;
+          secOperand = null;
+          return {
+            firstOperand, childDisplay, secOperand,
+          };
+        });
+
+        this.setState(() => {
+          operatorType = null;
+          return { secOperand, operatorType, childDisplay };
+        });
+      }
     }
 
     // when do you start the first operation? what will kick start the first
@@ -157,15 +179,14 @@ class App extends React.Component {
     }
 
 
-    // attempts at fixing a bug that occurs when user selects a number followed
-    // by an operator and then calculate button. It should return0 but instead
-    // it is computing based on the value on the dispaly.
-    if (firstOperand !== null) {
-      if (operatorType === null && attribute === 'calculate') {
-        // this.setState({ childDisplay: '0' });
-        this.handleAllClear();
-      }
-    }
+    // fixing a bug that occurs when user selects a number followed
+    // by an operator and then calculate button. It should return 0
+    // if (firstOperand !== null && operatorType !== null && attribute === 'calculate') {
+    //   // if (operatorType !== null && attribute === 'calculate') {
+    //   // this.setState({ childDisplay: '0' });
+    //   this.handleAllClear();
+    //   // }
+    // }
 
 
     if (attribute === 'all-clear') {
