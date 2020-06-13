@@ -19,6 +19,7 @@ class App extends React.Component {
       firstOperand: null,
       secOperand: null,
       operatorType: null,
+      storedOperator: null,
       characterLen: 10,
     };
 
@@ -42,13 +43,16 @@ class App extends React.Component {
 
     if (isOperator) {
       if (localState.calculatorState === "CAPTURED_SECOND" || (localState.calculatorState === "CAPTURED_OPERATOR" && localState.secOperand)) {
-        localState.firstOperand = this.calc(localState.firstOperand, localState.secOperand, localState.operatorType);
+        localState.firstOperand = this.calc(localState.firstOperand, localState.secOperand, localState.operatorType, localState.storedOperator);
+        localState.storedNegative = false;
         localState.childDisplay = localState.firstOperand;
         localState.secOperand = null;
         localState.calculatorState = "GOT_RESULT";
         localState.operatorType = val;
       }
       else {
+        if(localState.operatorType && val === "-") localState.storedOperator = localState.operatorType;
+        else localState.storedOperator = null;
         localState.calculatorState = "CAPTURED_OPERATOR";
         localState.operatorType = val;
       }
@@ -71,9 +75,13 @@ class App extends React.Component {
 
   }
 
-  calc(x, y, opr) {
+  calc(x, y, opr, storedOperator) {
     console.log(x, y, opr)
     if (!y) x = y;
+    if(storedOperator) {
+      opr = storedOperator;
+      y = -y;
+    }
     switch (opr) {
       case "+":
         return Number(x) + Number(y)
@@ -89,6 +97,7 @@ class App extends React.Component {
   }
 
   valGenerator(val, prevVal) {
+    if( val === "0" && prevVal === "0") return "0"
     if (val === "." && !prevVal) return "0."
     if (val === "." && prevVal && !prevVal.includes(val)) return `${prevVal}.`
     if (val === "." && prevVal && prevVal.includes(val)) return prevVal
@@ -105,6 +114,7 @@ class App extends React.Component {
     localState.operatorType = null;
     localState.calculatorState = "CAPTURED_FIRST";
     localState.childDisplay = newFirstOperand || "0";
+    localState.storedNegative = false;
     this.setState(localState);
   }
 
